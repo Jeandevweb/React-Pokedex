@@ -1,42 +1,31 @@
-import React, {FunctionComponent, useState, useEffect} from 'react';
-import POKEMONS from './models/mock-pokemon';
-import Pokemon from './models/pokemon';
+import React, {FunctionComponent} from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import PokemonList from './pages/pokemon-list';
+import PokemonDetail from './pages/pokemon-detail';
+import PageNotFound from './pages/page-not-found';
 
   
 const App: FunctionComponent = () => {
- const [pokemons, setPokemon] = useState<Pokemon[]>([]);
-
-
- useEffect(() => {
-    setPokemon(POKEMONS);
- }, [])
-
- 
-
 
  return (
-  <div >   
-    <h1 className="center">Hello, Ami des Pokemons !</h1>
-        <div className='container'>
-            <div className='row'>
-                {pokemons.map((pokemon, index) => 
-                    <div className="col s6 m4" key={index}>
-                        <div className="card horizontal">
-                        <div className="card-image"> 
-                            <img src={pokemon.picture} alt={pokemon.name}/>
-                        </div>
-                        <div className="card-stacked">
-                            <div className="card-content">
-                            <p>{pokemon.name}</p>
-                            <p><small>{pokemon.created.toString()}</small></p>
-                            </div>
-                        </div>
-                        </div> 
-                    </div>      
-                )}
+  <Router>
+      <div>
+          {/*Barre de navigation*/ }
+          <nav>
+            <div className="nav-wrapper teal">
+                <Link to="/" className="brand-logo center">Pokédex</Link>
             </div>
-        </div>
-  </div>
+          </nav>
+          {/*Système de gestion des routes*/ }
+           <Switch>
+                <Route exact path='/' component={PokemonList} /> 
+                <Route exact path='/pokemons' component={PokemonList} /> 
+                <Route path='/pokemons/:id' component={PokemonDetail} />  
+                <Route component={PageNotFound} />  
+
+           </Switch> 
+      </div>
+  </Router>
  )
 }
   
